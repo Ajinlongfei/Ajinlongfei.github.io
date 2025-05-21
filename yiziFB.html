@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>移动端家具图册</title>
+    <style>
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* 基础布局 */
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 轮播图样式 */
+        .carousel {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        /* 轮播控制按钮 */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .prev { left: 15px; }
+        .next { right: 15px; }
+
+        /* 产品信息卡片 */
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-label {
+            color: #666;
+        }
+
+        .spec-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            .carousel-image {
+                height: 250px;
+            }
+            
+            .product-card {
+                padding: 15px;
+            }
+        }
+                /* 新增分类导航样式 */
+        .category-nav {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            overflow-x: auto;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .category-btn {
+            flex: 0 0 auto;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        /* 平板适配 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: 30px;
+            }
+            
+            .carousel-image {
+                height: 400px;
+            }
+
+            .category-nav {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .products-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .category-content{
+            display: none;
+        }
+        .active{
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 新增分类导航 -->
+        <nav class="category-nav">
+            <button class="category-btn active" data-category="small">小盆椅子</button>
+            <button class="category-btn" data-category="david">大卫椅子</button>
+        </nav>
+        <div class="category-content active" id="small">
+            <div class="carousel-wrapper">
+                <div class="carousel">
+                    <div class="carousel-inner" id="carouselSmall">
+                        <div class="carousel-item">
+                            <img src="/z.jpg" class="carousel-image" alt="产品展示">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/f.jpg" class="carousel-image" alt="细节展示">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/d.png" class="carousel-image" alt="尺寸图示">
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="controlCarousel('small', 'prev')">👈</button>
+                    <button class="carousel-control next" onclick="controlCarousel('small', 'next')">👉</button>
+                </div>
+            </div>
+            <!-- 轮播图 -->
+            
+
+            <!-- 产品信息 -->
+            <div class="product-card">
+                <h2 class="product-title">盆椅套装 PY-001</h2>
+                <ul class="spec-list">
+                    <li class="spec-item">
+                        <span class="spec-label">价格</span>
+                        <span class="spec-value">¥37.5 - ¥60</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">重量</span>
+                        <span class="spec-value">6kg（单椅）</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">材质</span>
+                        <span class="spec-value">25管+藤条</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">尺寸</span>
+                        <span class="spec-value">58×62×102cm</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-content" id="david">
+             <div class="carousel-wrapper">
+                <div class="carousel">
+                    <div class="carousel-inner" id="carouselDavid">
+                        <div class="carousel-item">
+                            <img src="/z.jpg" class="carousel-image" alt="产品展示">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/f.jpg" class="carousel-image" alt="细节展示">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/d.png" class="carousel-image" alt="尺寸图示">
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="controlCarousel('david', 'prev')">👈</button>
+                    <button class="carousel-control next" onclick="controlCarousel('david', 'next')">👉</button>
+                </div>
+             </div>
+            <!-- 轮播图 -->
+            
+
+            <!-- 产品信息 -->
+            <div class="product-card">
+                <h2 class="product-title">大卫椅套装 PY-001</h2>
+                <ul class="spec-list">
+                    <li class="spec-item">
+                        <span class="spec-label">价格</span>
+                        <span class="spec-value">¥37.5 - ¥60</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">重量</span>
+                        <span class="spec-value">6kg（单椅）</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">材质</span>
+                        <span class="spec-value">25管+藤条</span>
+                    </li>
+                    <li class="spec-item">
+                        <span class="spec-label">尺寸</span>
+                        <span class="spec-value">58×62×102cm</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = function() {
+            // 新增分类切换逻辑
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 移除所有激活状态
+                    document.querySelectorAll('.category-btn, .category-content').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // 添加当前激活状态
+                    btn.classList.add('active');
+                    document.getElementById(btn.dataset.category).classList.add('active');
+                });
+            });
+        }
+                
+
+        // 轮播图状态管理
+        const carousels = {
+            small: {
+                element: document.getElementById('carouselSmall'),
+                currentSlide: 0,
+                totalSlides: 3,
+                interval: null
+            },
+            david: {
+                element: document.getElementById('carouselDavid'),
+                currentSlide: 0,
+                totalSlides: 3,
+                interval: null
+            }
+        };
+
+        // 统一控制函数
+        function controlCarousel(type, action) {
+            const carousel = carousels[type];
+            
+            clearInterval(carousel.interval); // 重置自动播放
+            
+            if (action === 'next') {
+                carousel.currentSlide = (carousel.currentSlide + 1) % carousel.totalSlides;
+            } else {
+                carousel.currentSlide = (carousel.currentSlide - 1 + carousel.totalSlides) % carousel.totalSlides;
+            }
+            
+            carousel.element.style.transform = `translateX(-${carousel.currentSlide * 100}%)`;
+            startAutoPlay(type);
+        }
+
+        // 自动播放管理
+        function startAutoPlay(type) {
+            const carousel = carousels[type];
+            clearInterval(carousel.interval);
+            carousel.interval = setInterval(() => {
+                controlCarousel(type, 'next');
+            }, 5000);
+        }
+
+        // 分类切换时启动对应轮播
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.category;
+                Object.keys(carousels).forEach(key => {
+                    clearInterval(carousels[key].interval);
+                    if (key === type) startAutoPlay(type);
+                });
+            });
+        });
+
+        // 初始化第一个轮播
+        startAutoPlay('small');
+
+        // 触摸事件处理（需要为每个轮播单独绑定）
+        function setupSwipe(element, type) {
+            let touchStartX = 0;
+            
+            element.addEventListener('touchstart', e => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            element.addEventListener('touchend', e => {
+                const touchEndX = e.changedTouches[0].clientX;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    controlCarousel(type, diff > 0 ? 'next' : 'prev');
+                }
+            });
+        }
+
+        // 为每个轮播初始化触摸事件
+        setupSwipe(carousels.small.element, 'small');
+        setupSwipe(carousels.david.element, 'david');
+    </script>
+</body>
+</html>
